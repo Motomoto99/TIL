@@ -6,6 +6,7 @@
 - 関数コンテキストのthisの挙動
 - アロー関数はthisを保持しない
 - コールバック関数の場合のthisの挙動
+- ホイスティング
 - thisの束縛
 
 ## 実行コンテキスト
@@ -46,7 +47,7 @@ WindowオブジェクトのプロパティにWindowオブジェクトの参照�
 関数として字こうした場合、thisの参照先はWindowオブジェクトになる。
 ```
 window.name = "花子";
-function() {
+function hello() {
     console.log("こんにちは、"+ this.name);
 }
 hello(); //関数として実行
@@ -99,7 +100,26 @@ function fn(callback){
 fn(taro.hello); //taro.helloはメソッドだが、callbackはただの関数として実行されている。
 ⇒こんにちは、花子
 ```
-オブジェクト.メソッド()という形式で実行されていない
+オブジェクト.メソッド()という形式で実行されていない  
+
+---
+## ホイスティング
+ホイスティングは、関数や変数の宣言の順番関係なくエラーがはかれなくなるよってことらしい
+```
+console.log(myVar); // undefined
+var myVar = "Hello";
+
+function myFunction() {
+    console.log("Function called!");
+}
+myFunction(); // "Function called!"
+```
+このコードの場合、myVarは宣言自体は先に行われて初期値としてundefinedが入れられているっぽい。  
+だからこのコードを実行すると、console.log(myVar)はundefinedが出力される。  
+関数で文字列のconsole.log出力だと別に気にせずに書いていいっぽい。  
+エラーが発生しないから気を付けないと本来の出力と適さない値が出力されている場合がある。  
+
+---
 
 ## thisの束縛
 前提として、アロー関数はthisを保持していないから束縛することはできない。  
